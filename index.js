@@ -15,7 +15,7 @@ document.getElementById("audio")
             const audioContext = new (window.AudioContext || window.webkitAudioContext) ();
 
             audioContext.decodeAudioData(arrayBuffer, (audioBuffer) => {
-                visualize(audioBuffer);
+                visualize(audioBuffer, audioContext);
             })
         });
 
@@ -23,39 +23,41 @@ document.getElementById("audio")
     });
 
 // function to visualize the audio on canvas.
-function visualize(audioBuffer) {
+function visualize(audioBuffer, audioContext) {
     const canvas = document.getElementById("canvas");
     canvas.width = 800;
     canvas.height = 200;
 
+    const analyser = audioContext.createAnalyser();
+    analyser.fftSize = 256;
     
+    const frequencyBufferLength = analyser.frequencyBinCount;
+    const frequencyData = new Uint8Array(frequencyBufferLength);
+
+    const source = audioContext.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+    source.start()
+
+    analyser.getByteFrequencyData(frequencyData);
 
     // To draw something on the canvas we need a cnvasContext.
     const canvasContext = canvas.getContext("2d");
-
-    // PCM(Pulse Code Modulation) data.
-    const channelData = audioBuffer.getChannelData(0);
-    
-    const numberOfChunks = 400;
-    const chunkSize = Math.ceil(channelData.length / numberOfChunks);
 
     // plotting rectangles on the canvas.
     canvasContext.fillStyle = "#5271FF";
 
     const center = canvas.height / 2;
-    const barWidth = canvas.width / numberOfChunks;
+    const barWidth = canvas.width / frequencyBufferLength;
+    console.log(frequencyData);
 
-    for(let i = 0; i < numberOfChunks; i++) {
-        const chunk = channelData.slice(i * chunkSize, (i + 1) * chunkSize);
-
-        const min = Math.min(...chunk) * 20;
-        const max = Math.max(...chunk) * 20;
-
+    for(let i = 0; i < frequencyBufferLength; i++) {
         canvasContext.fillRect(
             i * barWidth,
-            center - max,
+            canvas.height - frequencyData[i],
             barWidth,
-            max + Math.abs(min)
+            frequencyData[i]
         );
     }
 }
