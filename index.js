@@ -40,24 +40,26 @@ function visualize(audioBuffer, audioContext) {
     analyser.connect(audioContext.destination);
     source.start()
 
-    analyser.getByteFrequencyData(frequencyData);
-
     // To draw something on the canvas we need a cnvasContext.
     const canvasContext = canvas.getContext("2d");
 
     // plotting rectangles on the canvas.
     canvasContext.fillStyle = "#5271FF";
 
-    const center = canvas.height / 2;
-    const barWidth = canvas.width / frequencyBufferLength;
-    console.log(frequencyData);
+    setInterval(() => {
+        analyser.getByteFrequencyData(frequencyData);
 
-    for(let i = 0; i < frequencyBufferLength; i++) {
-        canvasContext.fillRect(
-            i * barWidth,
-            canvas.height - frequencyData[i],
-            barWidth,
-            frequencyData[i]
-        );
-    }
+        const center = canvas.height / 2;
+        const barWidth = canvas.width / frequencyBufferLength;
+        console.log(frequencyData);
+
+        for(let i = 0; i < frequencyBufferLength; i++) {
+            canvasContext.fillRect(
+                i * barWidth,
+                canvas.height - frequencyData[i],
+                barWidth,
+                frequencyData[i]
+            );
+        }
+    }, 100)
 }
