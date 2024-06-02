@@ -47,6 +47,9 @@ function visualize(audioBuffer, audioContext) {
     canvasContext.fillStyle = "#5271FF";
 
     setInterval(() => {
+        // clearing the canvas every time to plot new rectangles.
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+
         analyser.getByteFrequencyData(frequencyData);
 
         const center = canvas.height / 2;
