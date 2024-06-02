@@ -64,5 +64,5 @@ function visualize(audioBuffer, audioContext) {
                 frequencyData[i]
             );
         }
-    }, 100)
+    }, 50)
 }
