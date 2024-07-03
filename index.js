@@ -44,18 +44,18 @@ function visualize(audioBuffer, audioContext) {
     const canvasContext = canvas.getContext("2d");
 
     const barWidth = canvas.width / frequencyBufferLength;
-
+    
     function draw() {
         requestAnimationFrame(draw);   // calls the draw function itself again before the next repaint.
-
-        canvasContext.fillStyle = "#F4C2C2"
+        
+        canvasContext.fillStyle = '#0e1c26'
         // clearing the canvas every time to plot new rectangles.
         canvasContext.fillRect(0, 0, canvas.width, canvas.height);
 
         analyser.getByteFrequencyData(frequencyData);
 
         for(let i = 0; i < frequencyBufferLength; i++) {
-            canvasContext.fillStyle = `rgba(82, 113, 255, ${frequencyData[i] / 255})`;      // plotting rectangles on the canvas.
+            canvasContext.fillStyle = `rgba(241, 247, 121, ${frequencyData[i] / 255})`;      // plotting rectangles on the canvas.
             canvasContext.fillRect(
                 i * barWidth,
                 canvas.height - frequencyData[i],
