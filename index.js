@@ -26,7 +26,7 @@ document.getElementById("audio")
 function visualize(audioBuffer, audioContext) {
     const canvas = document.getElementById("canvas");
     canvas.width = canvas.clientWidth;
-    canvas.height = 500;
+    canvas.height = 250;
 
     const analyser = audioContext.createAnalyser();
     analyser.fftSize = 128;
