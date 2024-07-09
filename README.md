@@ -6,7 +6,7 @@ A web application that visually represents audio files using JavaScript. This pr
 Live Deployment
 ---------------
 
-Check out the live version of the Audio Visualizer [here](#https://abhishekpd01.github.io/Audio-Visualiser/).
+Check out the live version of the Audio Visualizer [here](https://abhishekpd01.github.io/Audio-Visualiser/).
 
 Features
 --------
